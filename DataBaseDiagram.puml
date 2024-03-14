@@ -1,0 +1,37 @@
+@startuml
+
+class flat {
+    + flatid: int
+    ---
+    + name: TEXT
+    + address: TEXT
+}
+
+class flatRecord {
+    + flatRecordid: int
+    + flatid: int
+    + userid: int
+    ---
+    + Review: TEXT
+}
+
+class photos {
+    + Photoid: int
+    +flatid: int
+    ---
+    + PhotoValue: string
+}
+
+class User {
+    +userID: int
+    ---
+    + email: TEXT
+    + Name : varChar
+}
+
+flat ||--o{ flatRecord
+flatRecord ||--o{ photos
+
+flatRecord }o--|| User
+
+@enduml
