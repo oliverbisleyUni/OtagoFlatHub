@@ -1,0 +1,45 @@
+@startuml
+
+!define HEADER_PKG_START
+!define HEADER_PKG_END
+
+!define FOOTER_PKG_START
+!define FOOTER_PKG_END
+
+!define HEADER_CLASS_START
+!define HEADER_CLASS_END
+
+!define FOOTER_CLASS_START
+!define FOOTER_CLASS_END
+
+package "User Layer (HTTPS)" {
+    [User]
+}
+
+package "Controller Layer\n(Express routes/controllers)" {
+    [MainController]
+    [OtherControllers...]
+}
+
+package "Model Layer\n(Using Sequelize ORM)" {
+    [FlatModel]
+    [FlatReviewModel]
+    [UserModel]
+    [OtherModels...]
+}
+
+package "View Layer\n(Pug files)" {
+    [DefaultPageTemplate]
+    [DefaultFlatTemplate]
+    [Other Pug Templates...]
+}
+User --> MainController : HTTPS Get request 
+
+MainController --> FlatModel : CRUD Operations
+MainController --> FlatReviewModel : CRUD Operations
+MainController --> DefaultPageTemplate : Send Data
+MainController --> DefaultFlatTemplate : Send Data
+MainController --> OtherControllers... : Other Controller Interactions
+MainController --> User : HTTPS POST request (with HTML from .pug)
+
+@enduml

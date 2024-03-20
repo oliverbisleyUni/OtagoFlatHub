@@ -1,37 +1,41 @@
 @startuml
 
-class flat {
-    + flatid: int
-    ---
-    + name: TEXT
-    + address: TEXT
+package "Domain Model" {
+    class User {
+        + UserID: int
+        ---
+        + UserName: varchar(16)
+        + email: varchar(64)
+        + name: varchar(64)
+        + Password: varchar(32)
+    }
+
+    class Flat {
+        + FlatID: int
+        ---
+        + name: varchar(64)
+        + address: varchar(64)
+    }
+
+    class FlatRecord {
+        + RecordID: int
+        + UserID: int
+        + FlatID: int
+        ---
+        + price: float
+        + review: text
+    }
+
+    class Photo {
+        + PhotoID: int
+        ---
+        + flatRecordId: int
+        + photoValue: blob 
+    }
+
+    User ||--o{ FlatRecord
+    Flat ||--o{ FlatRecord
+    FlatRecord ||--o{ Photo
 }
-
-class flatRecord {
-    + flatRecordid: int
-    + flatid: int
-    + userid: int
-    ---
-    + Review: TEXT
-}
-
-class photos {
-    + Photoid: int
-    +flatid: int
-    ---
-    + PhotoValue: string
-}
-
-class User {
-    +userID: int
-    ---
-    + email: TEXT
-    + Name : varChar
-}
-
-flat ||--o{ flatRecord
-flatRecord ||--o{ photos
-
-flatRecord }o--|| User
 
 @enduml
