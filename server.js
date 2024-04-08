@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.set('view engine', 'pug');
 
 // Routes
-const flatRoutes = require('./routes/flatRoutes');
+const flatRoutes = require('./routes/flat-routes');
 app.use('/flats', flatRoutes);
 
 // Set up the server
