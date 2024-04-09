@@ -4,8 +4,11 @@ const express = require('express');
 const router = express.Router();
 
 // GET route for /flats
-router.get('/', (req, res) => {
-  res.render('index'); // Assuming you have an index.pug file in the views folder
+const { User } = require('../database');
+
+router.get('/', async (req, res) => {
+  const user = await User.findOne();
+  res.render('index', { email: user ? user.email : 'No users found' });
 });
 
 module.exports = router;
