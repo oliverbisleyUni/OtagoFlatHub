@@ -4,12 +4,15 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Database connection
 const { sequelize } = require('./database');
+require('dotenv').config();
+
 
 // Test the database connection
 sequelize.authenticate()
