@@ -28,7 +28,7 @@ app.set('view engine', 'pug');
 
 // Routes
 const flatRoutes = require('./routes/flat-routes');
-app.use('/flats', flatRoutes);
+app.use('/', flatRoutes);
 
 // Set up the server
 const PORT = process.env.PORT || 3000;
