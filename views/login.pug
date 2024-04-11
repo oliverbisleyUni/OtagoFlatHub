@@ -5,10 +5,12 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     h1 Login
+    if error
+      .error-message #{error}
     form(method='post', action='/login')
       div
-        label(for='username') Username:
-        input(type='text', name='username', required=true)
+        label(for='email') Username:
+        input(type='text', name='email', required=true)
       div
         label(for='password') Password:
         input(type='password', name='password', required=true)

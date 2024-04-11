@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Register
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    h1 Register
+    if error
+      .error-message #{error}
+    form(method='post', action='/register')
+      div
+        label(for='username') Username:
+        input(type='text', name='username', required=true)
+      div
+        label(for='email') Email:
+        input(type='email', name='email', required=true)
+      div
+        label(for='password') Password:
+        input(type='password', name='password', required=true)
+      div
+        button(type='submit') Register
