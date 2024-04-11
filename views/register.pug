@@ -9,9 +9,6 @@ html
       .error-message #{error}
     form(method='post', action='/register')
       div
-        label(for='username') Username:
-        input(type='text', name='username', required=true)
-      div
         label(for='email') Email:
         input(type='email', name='email', required=true)
       div
@@ -19,3 +16,6 @@ html
         input(type='password', name='password', required=true)
       div
         button(type='submit') Register
+
+    // Button/link to go to the login page
+    a(href='/login', class='button') Login
