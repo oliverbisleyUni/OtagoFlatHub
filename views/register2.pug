@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Register
+    link(rel='stylesheet', href='/stylesheets/loginstyle.css')
+
+  body
+    .login-container#register-container
+      h1 Register
+      if error
+        .error-message #{error}
+      form(method='post', action='/register')
+        div
+          label(for='email') Email:
+          input(type='email', name='email', required=true)
+        div
+          label(for='password') Password:
+          input(type='password', name='password', required=true)
+        div
+          button(type='submit', class='register-button') Register
+
+      // Button/link to go to the login page
+      a(href='/login', class='button') Login

@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 // GET route for /flats
 const { User } = require('../database');
 
+
+
 // Middleware to validate JWT
 function validateJwt(req, res, next) {
   const token = req.cookies.token; // Assuming the JWT is stored in a cookie
@@ -30,7 +32,7 @@ function validateJwt(req, res, next) {
 
 
 router.get('/login', async (req, res) => {
-  res.render('login');
+  res.render('login2');
 });
 
 router.get('/', validateJwt, async (req, res) => {
@@ -70,9 +72,13 @@ router.get('/logout', (req, res) => {
 });
 
 
+router.get('/logintest', (req, res) => {
+  
+})
+
 
 router.get('/register', (req, res) => {
-  res.render('register');
+  res.render('register2');
 });
 
 router.post('/register', async (req, res) => {
@@ -107,6 +113,5 @@ router.post('/register', async (req, res) => {
   }
 });
 
-module.exports = router;
 
 module.exports = router;

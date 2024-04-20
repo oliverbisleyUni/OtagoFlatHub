@@ -1,0 +1,23 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Login Page
+    link(rel='stylesheet', href='/stylesheets/loginstyle.css')
+
+  body
+    .login-container#login-container
+      h1 Login
+      if error
+        .error-message #{error}
+      form(method='post', action='/login')
+        div
+          label(for='email') Email:
+          input(type='email', name='email', required=true)
+        div
+          label(for='password') Password:
+          input(type='password', name='password', required=true)
+        div
+          button(type='submit', class='login-button') Login
+      a(href='/register', class='button') Register

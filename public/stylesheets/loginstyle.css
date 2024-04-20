@@ -21,10 +21,10 @@ body {
     text-align: center;
 }
 
-.login-container input[type="text"],
+.login-container input[type="email"],
 .login-container input[type="password"],
 .login-container input[type="submit"],
-.login-container a {
+.login-container a.button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
@@ -36,15 +36,47 @@ body {
     display: block;
 }
 
-.login-container input[type="submit"] {
+.login-container form button[type="submit"].login-button {
     background-color: green;
     color: #fff;
     cursor: pointer;
+    background-color: green;
+    color: #fff;
+    cursor: pointer;
+      width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    display: block;
 }
 
-.login-container input[type="submit"]:hover {
-    background-color: green;
+.login-container form button[type="submit"].login-button:hover {
+    background-color: darkgreen; 
 }
+
+.login-container form button[type="submit"].register-button {
+    background-color: green;
+    color: #fff;
+    cursor: pointer;
+      width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    display: block;
+}
+
+.login-container form button[type="submit"].register-button:hover {
+    background-color: darkgreen; 
+}
+
 
 .login-container a {
     text-decoration: none;
