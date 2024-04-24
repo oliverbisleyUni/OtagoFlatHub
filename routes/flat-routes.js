@@ -56,13 +56,13 @@ router.post('/login', async (req, res) => {
         res.cookie('token', token, { httpOnly: true });
         res.redirect('/');
       } else {
-        res.render('login', { error: 'Invalid email or password' });
+        res.render('login2', { error: 'Invalid email or password' });
       }
     } else {
-      res.render('login', { error: 'Invalid email or password' });
+      res.render('login2', { error: 'Invalid email or password' });
     }
   } catch (error) {
-    res.render('login', { error: 'An error occurred' });
+    res.render('login2', { error: 'An error occurred' });
   }
 });
 
@@ -87,13 +87,13 @@ router.post('/register', async (req, res) => {
 
     // Basic validation
     if (!password || !email) {
-      return res.render('register', { error: 'Please provide all required fields.' });
+      return res.render('register2', { error: 'Please provide all required fields.' });
     }
 
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email: email } });
     if (existingUser) {
-      return res.render('register', { error: 'Username already exists.' });
+      return res.render('register2', { error: 'Username already exists.' });
     }
 
     // Hash the password
@@ -109,7 +109,7 @@ router.post('/register', async (req, res) => {
     // Redirect to login or other page after successful registration
     res.redirect('/');
   } catch (error) {
-    res.render('register', { error: 'An error occurred during registration.' });
+    res.render('register2', { error: error });
   }
 });
 

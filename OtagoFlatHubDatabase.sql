@@ -1,30 +1,28 @@
-CREATE TABLE [User] (
-    UserID INT PRIMARY KEY,
-    UserName VARCHAR(16),
-    email VARCHAR(16),
-    name VARCHAR(16),
-    PASSWORD VARCHAR(16)
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(64),
+    password VARCHAR(64)
 );
 
 CREATE TABLE Flat (
-    FlatID INT PRIMARY KEY,
+    flat_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(64),
     address VARCHAR(64)
 );
 
 CREATE TABLE FlatRecord (
-    RecordID INT PRIMARY KEY,
-    UserID INT,
-    FlatID INT,
+    record_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    flat_id INT,
     price FLOAT,
     review TEXT,
-    FOREIGN KEY (UserID) REFERENCES [User](UserID),
-    FOREIGN KEY (FlatID) REFERENCES Flat(FlatID)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (flat_id) REFERENCES Flat(flat_id)
 );
 
 CREATE TABLE Photo (
-    PhotoID INT PRIMARY KEY,
-    flatRecordID INT,
+    photo_id INT PRIMARY KEY AUTO_INCREMENT,
+    record_id INT,
     photoValue BLOB,
-    FOREIGN KEY (flatRecordID) REFERENCES FlatRecord(RecordID)
+    FOREIGN KEY (record_id) REFERENCES FlatRecord(record_id)
 );
