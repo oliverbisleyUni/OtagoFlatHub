@@ -26,3 +26,11 @@ CREATE TABLE Photo (
     photoValue BLOB,
     FOREIGN KEY (record_id) REFERENCES FlatRecord(record_id)
 );
+
+
+CREATE TABLE `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(64) DEFAULT NULL,
+  `password` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |

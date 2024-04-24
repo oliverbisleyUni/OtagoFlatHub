@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 // GET route for /flats
-const { User } = require('../database');
+const {sequelize, User, Flat, FlatRecord } = require('../database');
 
 
 
@@ -36,8 +36,24 @@ router.get('/login', async (req, res) => {
 });
 
 router.get('/', validateJwt, async (req, res) => {
-  res.render('index');
+  try {
+    // Fetch all flats with their most recent flat records
+    const flats = await Flat.findAll({
+      include: [{
+        model: FlatRecord,
+        //order: [['updatedAt', 'DESC']], // Order flat records by updatedAt timestamp in descending order we dont have this coloum in our tables we might want to add it so we can always get the most uptodate to display on the home screen
+        limit: 1 // Limit the result to only the latest record for each flat
+      }]
+    });
+
+    res.render('index', { flats: flats });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
+
 
 
 

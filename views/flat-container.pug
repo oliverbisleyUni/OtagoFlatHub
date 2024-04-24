@@ -1,0 +1,10 @@
+// flat-container.pug
+each flat in flats
+  .flat-container
+    .flat
+      h2= flat.name
+      p= flat.address
+      each record in flat.FlatRecords
+        .record
+          p= record.price
+          p= record.review

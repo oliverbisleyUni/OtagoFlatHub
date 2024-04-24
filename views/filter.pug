@@ -1,0 +1,9 @@
+//- filter.pug
+form(action="/filter", method="get")
+  label(for="price") Price:
+  input(type="number", id="price", name="price")
+
+  label(for="location") Location:
+  input(type="text", id="location", name="location")
+
+  button(type="submit") Filter

@@ -15,18 +15,100 @@ const User = sequelize.define('User', {
     primaryKey: true
   },
   email: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING(64), // Adjust the length according to your database schema
     allowNull: false
   },
   password: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING(64), // Adjust the length according to your database schema
     allowNull: false
   }
 }, {
   timestamps: false, // This tells Sequelize not to look for the `createdAt` and `updatedAt` columns
 });
 
+const Flat = sequelize.define('Flat', {
+  flat_id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  name: {
+    type: DataTypes.STRING(64), // Adjust the length according to your database schema
+    allowNull: false
+  },
+  address: {
+    type: DataTypes.STRING(64), // Adjust the length according to your database schema
+    allowNull: false
+  }
+}, {
+  timestamps: false,
+  tableName: 'Flat'
+});
+
+const FlatRecord = sequelize.define('FlatRecord', {
+  record_id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'user_id'
+    }
+  },
+  flat_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Flat,
+      key: 'flat_id'
+    }
+  },
+  price: {
+    type: DataTypes.FLOAT,
+    allowNull: false
+  },
+  review: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  }
+}, {
+  timestamps: false,
+  tableName: 'FlatRecord'
+});
+
+const Photo = sequelize.define('Photo', {
+  photo_id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  record_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: FlatRecord,
+      key: 'record_id'
+    }
+  },
+  photoValue: {
+    type: DataTypes.BLOB,
+    allowNull: false
+  }
+}, {
+  timestamps: false,
+});
+
 module.exports = {
   sequelize,
-  User
+  User,
+  Flat,
+  FlatRecord,
+  Photo
 };
+
+Flat.hasMany(FlatRecord, { foreignKey: 'flat_id' });
+FlatRecord.belongsTo(Flat, { foreignKey: 'flat_id' });
