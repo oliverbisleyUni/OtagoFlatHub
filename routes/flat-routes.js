@@ -54,7 +54,69 @@ router.get('/', validateJwt, async (req, res) => {
 });
 
 
+router.post('/upload-flat', validateJwt, async (req, res) => {
+  try {
+    console.log(req.body);
+    console.log(req.user.user_id);
+    // Get user ID from the authenticated user
+    const userId = req.user.user_id;
 
+    // Extract data from the request body
+    const { flatId, flatName, flatAddress, price, review } = req.body;
+
+    let flat;
+
+    // If the selected flat is "New Flat", create a new flat
+    if (flatId === 'new') {
+      // Check if both name and address are provided
+      if (!flatName || !flatAddress) {
+        return res.status(400).send('Name and address are required for new flat');
+      }
+
+      // Create a new flat
+      flat = await Flat.create({ name: flatName, address: flatAddress });
+    } else {
+      // Find the existing flat by ID
+      flat = await Flat.findByPk(flatId);
+
+      // If the flat is not found, return an error
+      if (!flat) {
+        return res.status(404).send('Flat not found');
+      }
+    }
+
+    // Create a new flat record
+    const newFlatRecord = await FlatRecord.create({
+      user_id: userId,
+      flat_id: flat.flat_id,
+      price,
+      review: review.toString() // Ensure review is a string
+    });
+
+    // Redirect to the home page after successful upload
+    res.redirect('/');
+  } catch (error) {
+    // Handle errors
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+// GET method to fetch all flats for dropdown menu
+router.get('/upload-flat', validateJwt, async (req, res) => {
+  try {
+    // Fetch all flats
+    const flats = await Flat.findAll();
+
+    // Pass flats and user ID to the upload-flat.pug file
+    res.render('MakeFlat', { flats, userId: req.user.id });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 
 

@@ -1,0 +1,61 @@
+//- upload-flat.pug
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Upload Flat Information
+    link(rel="stylesheet", href="/stylesheets/uploadFlatStyle.css")
+  body
+    h1 Upload Flat Information
+
+    form(action="/upload-flat", method="post")
+      label(for="flatId") Select Flat:
+      select(name="flatId" id="flatId")
+        option(value="new" selected) New Flat
+        each flat in flats
+          option(value=flat.flat_id)= flat.name
+
+      //- Input fields for new flat
+      div#newFlatFields
+        label(for="flatName") Flat Name:
+        input(type="text", name="flatName", id="flatName")
+
+        label(for="flatAddress") Flat Address:
+        input(type="text", name="flatAddress", id="flatAddress")
+
+        //- Input fields for flat record
+        label(for="price") Price:
+        input(type="number", name="price", id="price", step="0.01")
+
+        label(for="review") Review:
+        textarea(name="review", id="review", rows="4" cols="50")
+
+      //- Input fields for existing flat
+      div#existingFlatFields(style="display: none;")
+        label(for="price") Price:
+        input(type="number", name="price", id="price", step="0.01")
+
+        label(for="review") Review:
+        textarea(name="review", id="review", rows="4" cols="50")
+
+      input(type="hidden", name="userId", value=userId)
+      
+      button(type="submit") Upload
+
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('newFlatFields').style.display = 'block';
+        document.getElementById('existingFlatFields').style.display = 'none';
+      });
+
+      document.getElementById('flatId').addEventListener('change', function() {
+        var selectedFlat = this.value;
+        if (selectedFlat === "new") {
+          document.getElementById('newFlatFields').style.display = 'block';
+          document.getElementById('existingFlatFields').style.display = 'none';
+        } else {
+          document.getElementById('newFlatFields').style.display = 'none';
+          document.getElementById('existingFlatFields').style.display = 'block';
+        }
+      });
