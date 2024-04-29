@@ -39,11 +39,6 @@ router.get('/', validateJwt, async (req, res) => {
   try {
     // Fetch all flats with their most recent flat records
     const flats = await Flat.findAll({
-      include: [{
-        model: FlatRecord,
-        //order: [['updatedAt', 'DESC']], // Order flat records by updatedAt timestamp in descending order we dont have this coloum in our tables we might want to add it so we can always get the most uptodate to display on the home screen
-        limit: 1 // Limit the result to only the latest record for each flat
-      }]
     });
 
     res.render('index', { flats: flats });
@@ -57,41 +52,41 @@ router.get('/', validateJwt, async (req, res) => {
 router.post('/upload-flat', validateJwt, async (req, res) => {
   try {
     console.log(req.body);
-    console.log(req.user.user_id);
+    console.log(req.user);
     // Get user ID from the authenticated user
     const userId = req.user.user_id;
 
-    // Extract data from the request body
-    const { flatId, flatName, flatAddress, price, review } = req.body;
+    // // Extract data from the request body
+    // const { flatId, flatName, flatAddress, price, review } = req.body;
 
-    let flat;
+    // let flat;
 
-    // If the selected flat is "New Flat", create a new flat
-    if (flatId === 'new') {
-      // Check if both name and address are provided
-      if (!flatName || !flatAddress) {
-        return res.status(400).send('Name and address are required for new flat');
-      }
+    // // If the selected flat is "New Flat", create a new flat
+    // if (flatId === 'new') {
+    //   // Check if both name and address are provided
+    //   if (!flatName || !flatAddress) {
+    //     return res.status(400).send('Name and address are required for new flat');
+    //   }
 
-      // Create a new flat
-      flat = await Flat.create({ name: flatName, address: flatAddress });
-    } else {
-      // Find the existing flat by ID
-      flat = await Flat.findByPk(flatId);
+    //   // Create a new flat
+    //   flat = await Flat.create({ name: flatName, address: flatAddress });
+    // } else {
+    //   // Find the existing flat by ID
+    //   flat = await Flat.findByPk(flatId);
 
-      // If the flat is not found, return an error
-      if (!flat) {
-        return res.status(404).send('Flat not found');
-      }
-    }
+    //   // If the flat is not found, return an error
+    //   if (!flat) {
+    //     return res.status(404).send('Flat not found');
+    //   }
+    // }
 
-    // Create a new flat record
-    const newFlatRecord = await FlatRecord.create({
-      user_id: userId,
-      flat_id: flat.flat_id,
-      price,
-      review: review.toString() // Ensure review is a string
-    });
+    // // Create a new flat record
+    // const newFlatRecord = await FlatRecord.create({
+    //   user_id: userId,
+    //   flat_id: flat.flat_id,
+    //   price,
+    //   review: review.toString() // Ensure review is a string
+    // });
 
     // Redirect to the home page after successful upload
     res.redirect('/');
@@ -132,6 +127,7 @@ router.post('/login', async (req, res) => {
         
         // Send token to client
         res.cookie('token', token, { httpOnly: true });
+        res.cookie('user_id', user.id, { httpOnly: true });
         res.redirect('/');
       } else {
         res.render('login2', { error: 'Invalid email or password' });
@@ -140,7 +136,7 @@ router.post('/login', async (req, res) => {
       res.render('login2', { error: 'Invalid email or password' });
     }
   } catch (error) {
-    res.render('login2', { error: 'An error occurred' });
+    res.render('login2', { error: error });
   }
 });
 
@@ -149,10 +145,6 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-
-router.get('/logintest', (req, res) => {
-  
-})
 
 
 router.get('/register', (req, res) => {
