@@ -52,41 +52,54 @@ router.get('/', validateJwt, async (req, res) => {
 router.post('/upload-flat', validateJwt, async (req, res) => {
   try {
     console.log(req.body);
-    console.log(req.user);
     // Get user ID from the authenticated user
-    const userId = req.user.user_id;
+    const userId = req.cookies.user_id;
 
-    // // Extract data from the request body
-    // const { flatId, flatName, flatAddress, price, review } = req.body;
+    const { flatId, flatName, flatAddress, priceNew, reviewNew, priceExisting, reviewExisting } = req.body;
 
-    // let flat;
+    let flat;
+    let price;
+    let review;
 
-    // // If the selected flat is "New Flat", create a new flat
-    // if (flatId === 'new') {
-    //   // Check if both name and address are provided
-    //   if (!flatName || !flatAddress) {
-    //     return res.status(400).send('Name and address are required for new flat');
-    //   }
+    if (flatId === 'new') {
+      // Check if both name and address are provided
+      if (!flatName || !flatAddress) {
+        return res.status(400).send('Name and address are required for new flat');
+      }
 
-    //   // Create a new flat
-    //   flat = await Flat.create({ name: flatName, address: flatAddress });
-    // } else {
-    //   // Find the existing flat by ID
-    //   flat = await Flat.findByPk(flatId);
+      // Check if a flat already exists with the provided address
+      const existingFlat = await Flat.findOne({ where: { address: flatAddress } });
 
-    //   // If the flat is not found, return an error
-    //   if (!flat) {
-    //     return res.status(404).send('Flat not found');
-    //   }
-    // }
+      if (existingFlat) {
+        // Use the existing flat
+        flat = existingFlat;
+      } else {
+        // Create a new flat
+        flat = await Flat.create({ name: flatName, address: flatAddress });
+      }
 
-    // // Create a new flat record
-    // const newFlatRecord = await FlatRecord.create({
-    //   user_id: userId,
-    //   flat_id: flat.flat_id,
-    //   price,
-    //   review: review.toString() // Ensure review is a string
-    // });
+      price = priceNew;
+      review = reviewNew;
+    } else {
+      // Find the existing flat by ID
+      flat = await Flat.findByPk(flatId);
+
+      // If the flat is not found, return an error
+      if (!flat) {
+        return res.status(404).send('Flat not found');
+      }
+
+      price = priceExisting;
+      review = reviewExisting;
+    }
+
+    // Create a new flat record
+    const newFlatRecord = await FlatRecord.create({
+      user_id: userId,
+      flat_id: flat.flat_id,
+      price: price,
+      review: review // Ensure review is a string
+    });
 
     // Redirect to the home page after successful upload
     res.redirect('/');
@@ -150,6 +163,45 @@ router.get('/logout', (req, res) => {
 
 router.get('/register', (req, res) => {
   res.render('register2');
+});
+
+
+router.get('/flat/:flat_id', validateJwt, async(req, res) => {
+  const flatId = req.params.flat_id;
+  console.log(flatId)
+  try {
+    const records = await FlatRecord.findAll({
+      where: { flat_id: flatId}
+   });
+   console.log(records);
+   console.log(typeof records.user_id, typeof req.cookies.user_id);
+
+    res.render('view-records', { records: records, current_user: parseInt(req.cookies.user_id) });
+} catch (err) {
+    console.log(err);
+    res.status(500).send('Error occurred while fetching data');
+}});
+
+router.get('/delete-record/:record_id', validateJwt, async(req, res) => {
+  const { record_id } = req.params;
+
+    try {
+        const result = await FlatRecord.destroy({
+            where: { record_id: record_id }
+        });
+
+        if (result === 0) {
+            return res.status(404).send({ message: "No review found with the specified ID." });
+        }
+
+        res.redirect('/')
+    } catch (err) {
+        res.status(500).send({
+            message: "Error deleting review with ID " + record_id,
+            error: err.message
+        });
+    }
+  
 });
 
 router.post('/register', async (req, res) => {

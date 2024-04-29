@@ -16,6 +16,7 @@ CREATE TABLE FlatRecord (
     flat_id INT,
     price FLOAT,
     review TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (flat_id) REFERENCES Flat(flat_id)
 );
@@ -28,9 +29,3 @@ CREATE TABLE Photo (
 );
 
 
-CREATE TABLE `users` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(64) DEFAULT NULL,
-  `password` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |

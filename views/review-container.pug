@@ -1,0 +1,60 @@
+style.
+      .container {
+        width: 80%;
+        margin: auto;
+        font-family: Arial, sans-serif;
+      }
+      .my-reviews, .other-reviews {
+        border: 1px solid #ccc;
+        margin-top: 20px;
+        padding: 10px;
+      }
+      .review-box, .record-box {
+        border: 1px solid #eee;
+        background-color: #f9f9f9;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+      }
+      .review-box {
+        border-left: 5px solid green;
+      }
+      .record-box {
+        border-left: 5px solid blue;
+      }
+      h2 {
+        color: #333;
+      }
+      p {
+        color: #666;
+      }
+      a {
+        color: red;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+.container
+  // Box for reviews by the current user
+  .my-reviews
+    h2 My Reviews
+    each record in records
+      if record.user_id === current_user
+        .review-box
+          p Date: #{record.created_at}
+          p Price: #{record.price}
+          p Review: #{record.review}
+          a(href=`/delete-record/${record.record_id}`) Delete
+
+  // Box for reviews by other users
+  .other-reviews
+    h2 Other Reviews
+    each record in records
+      if record.user_id !== current_user
+        .record-box
+          p Date: #{record.created_at}
+          p Price: #{record.price}
+          p Review: #{record.review}

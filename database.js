@@ -74,6 +74,11 @@ const FlatRecord = sequelize.define('FlatRecord', {
   review: {
     type: DataTypes.TEXT,
     allowNull: true
+  },
+  created_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW  // Sets the default value to the current date and time
   }
 }, {
   timestamps: false,

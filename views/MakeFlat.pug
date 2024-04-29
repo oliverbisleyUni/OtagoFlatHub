@@ -10,7 +10,7 @@ html(lang="en")
     h1 Upload Flat Information
 
     form(action="/upload-flat", method="post")
-      label(for="flatId") Select Flat:
+      label(for="flatId") Select Flat: plox
       select(name="flatId" id="flatId")
         option(value="new" selected) New Flat
         each flat in flats
@@ -24,20 +24,21 @@ html(lang="en")
         label(for="flatAddress") Flat Address:
         input(type="text", name="flatAddress", id="flatAddress")
 
-        //- Input fields for flat record
-        label(for="price") Price:
-        input(type="number", name="price", id="price", step="0.01")
+        //- Input fields for price and review
+        label(for="priceNew") Price:
+        input(type="number", name="priceNew", id="priceNew", step="0.01")
 
-        label(for="review") Review:
-        textarea(name="review", id="review", rows="4" cols="50")
+        label(for="reviewNew") Review:
+        textarea(name="reviewNew", id="reviewNew", rows="4" cols="50")
 
       //- Input fields for existing flat
       div#existingFlatFields(style="display: none;")
-        label(for="price") Price:
-        input(type="number", name="price", id="price", step="0.01")
+        //- Input fields for price and review
+        label(for="priceExisting") Price:
+        input(type="number", name="priceExisting", id="priceExisting", step="0.01")
 
-        label(for="review") Review:
-        textarea(name="review", id="review", rows="4" cols="50")
+        label(for="reviewExisting") Review:
+        textarea(name="reviewExisting", id="reviewExisting", rows="4" cols="50")
       
       button(type="submit") Upload
 
