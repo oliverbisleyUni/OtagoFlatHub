@@ -119,15 +119,16 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ where: { email: email } });
+    console.log(user);
     if (user) {
       const validPassword = await bcrypt.compare(password, user.password);
       if (validPassword) {
         // Create token
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
         
         // Send token to client
         res.cookie('token', token, { httpOnly: true });
-        res.cookie('user_id', user.id, { httpOnly: true });
+        res.cookie('user_id', user.user_id, { httpOnly: true });
         res.redirect('/');
       } else {
         res.render('login2', { error: 'Invalid email or password' });
