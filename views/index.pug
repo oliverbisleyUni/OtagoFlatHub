@@ -7,9 +7,12 @@ html(lang="en")
     title Home Page
     link(rel="stylesheet", href="/stylesheets/Indexstyle.css")
   body
-    include filter.pug
+    include header.pug
 
     h1 Welcome to the Home Page
+
+    form#logout-form(action="/upload-flat", method="get")
+        button(type="submit") Upload Review
 
     // Display flats
     //- Add the flat-holder div with id
