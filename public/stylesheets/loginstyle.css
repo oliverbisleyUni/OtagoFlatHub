@@ -91,3 +91,12 @@ body {
     display: none;
 }
 
+footer {
+    background-color: hsl(0, 0%, 34%);
+    padding: 20px;
+    text-align: center;
+  }
+  footer p {
+    margin: 0;
+    color: #333;
+  }
