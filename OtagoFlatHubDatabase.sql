@@ -21,11 +21,6 @@ CREATE TABLE FlatRecord (
     FOREIGN KEY (flat_id) REFERENCES Flat(flat_id)
 );
 
-CREATE TABLE Photo (
-    photo_id INT PRIMARY KEY AUTO_INCREMENT,
-    record_id INT,
-    photoValue BLOB,
-    FOREIGN KEY (record_id) REFERENCES FlatRecord(record_id)
-);
+
 
 

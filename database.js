@@ -79,40 +79,18 @@ const FlatRecord = sequelize.define('FlatRecord', {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW  // Sets the default value to the current date and time
-  }
+  },
 }, {
   timestamps: false,
   tableName: 'FlatRecord'
 });
 
-const Photo = sequelize.define('Photo', {
-  photo_id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  record_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: FlatRecord,
-      key: 'record_id'
-    }
-  },
-  photoValue: {
-    type: DataTypes.BLOB,
-    allowNull: false
-  }
-}, {
-  timestamps: false,
-});
 
 module.exports = {
   sequelize,
   User,
   Flat,
   FlatRecord,
-  Photo
 };
 
 Flat.hasMany(FlatRecord, { foreignKey: 'flat_id' });
