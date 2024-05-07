@@ -10,7 +10,7 @@ html(lang="en")
     include header.pug
     h1 Upload Flat Information
 
-    form(action="/upload-flat", method="post")
+    form(class='full-form', action="/upload-flat", method="post")
       label(for="flatId") Select Flat: plox
       select(name="flatId" id="flatId")
         option(value="new" selected) New Flat

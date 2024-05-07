@@ -6,17 +6,24 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Home Page
     link(rel="stylesheet", href="/stylesheets/Indexstyle.css")
+    link(rel="stylesheet", href="/stylesheets/leaflet.css")
+    //- Make sure you put this AFTER Leaflet's CSS
+    script(src="/js/leaflet.js")
+   
+
+
   body
     include header.pug
 
-    h1 Welcome to the Home Page
 
-    form#logout-form(action="/upload-flat", method="get")
+    form#upload-flat(action="/upload-flat", method="get")
         button(type="submit") Upload Review
 
-    // Display flats
-    //- Add the flat-holder div with id
-    #flat-holder
-      include flat-container.pug
-      
+   
+    main
+      #flat-holder
+        include flat-container.pug
+      #map-container
+        div#map
+    script(src="/js/map.js" defer) 
     include footer.pug

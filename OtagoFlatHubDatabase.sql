@@ -7,7 +7,9 @@ CREATE TABLE Users (
 CREATE TABLE Flat (
     flat_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(64),
-    address VARCHAR(64)
+    address VARCHAR(64),
+    latitude DECIMAL(10, 8), 
+    longitude DECIMAL(11, 8)
 );
 
 CREATE TABLE FlatRecord (

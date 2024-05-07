@@ -4,9 +4,12 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 
 // GET route for /flats
 const {sequelize, User, Flat, FlatRecord } = require('../database');
+
+const sdk = require('@api/locationiq');
 
 
 
@@ -30,16 +33,51 @@ function validateJwt(req, res, next) {
   }
 }
 
+router.get('/api/flats', async(req,res) => {
+  try {
+    // Fetch all flats with their most recent flat records
+    const flats = await Flat.findAll({});
+    res.send(flats);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 router.get('/login', async (req, res) => {
   res.render('login2');
 });
+
+async function getCoordinates(address) {
+  sdk.auth(process.env.GEOCODING_KEY);
+  let encodedAddress = encodeURIComponent(address);
+  try {
+    const response = await sdk.search({q: encodedAddress, format: 'json'});
+    const { data } = response;
+    if (data && data.length > 0) {
+      const { lat, lon } = data[0];
+      console.log(lat, lon);
+      return { lat, lon };
+    } else {
+      throw new Error('No data found');
+    }
+  } catch (err) {
+    console.error(err);
+    throw err;  // Re-throw the error if you need to handle it later as well
+  }
+}
+
 
 router.get('/', validateJwt, async (req, res) => {
   try {
     // Fetch all flats with their most recent flat records
     const flats = await Flat.findAll({
     });
+
+
+
+    
 
     res.render('index', { flats: flats });
   } catch (error) {
@@ -75,7 +113,9 @@ router.post('/upload-flat', validateJwt, async (req, res) => {
         flat = existingFlat;
       } else {
         // Create a new flat
-        flat = await Flat.create({ name: flatName, address: flatAddress });
+        const {lat, lon} = await getCoordinates(flatAddress);
+        console.log(lat, lon);
+        flat = await Flat.create({ name: flatName, address: flatAddress, latitude: lat, longitude: lon });
       }
 
       price = priceNew;
@@ -100,7 +140,7 @@ router.post('/upload-flat', validateJwt, async (req, res) => {
       price: price,
       review: review // Ensure review is a string
     });
-
+    
     // Redirect to the home page after successful upload
     res.redirect('/');
   } catch (error) {

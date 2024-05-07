@@ -11,7 +11,7 @@ html(lang='en')
       h1 Register
       if error
         .error-message #{error}
-      form(method='post', action='/register')
+      form(class='full-form', method='post', action='/register')
         div
           label(for='email') Email:
           input(type='email', name='email', required=true)

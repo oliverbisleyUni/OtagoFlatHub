@@ -39,6 +39,14 @@ const Flat = sequelize.define('Flat', {
   address: {
     type: DataTypes.STRING(64), // Adjust the length according to your database schema
     allowNull: false
+  },
+  latitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true // Set to true if latitude can be null, or false if it must be provided
+  },
+  longitude: {
+    type: DataTypes.DECIMAL(11, 8),
+    allowNull: true // Set to true if longitude can be null, or false if it must be provided
   }
 }, {
   timestamps: false,
