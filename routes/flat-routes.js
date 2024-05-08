@@ -253,6 +253,12 @@ router.post('/register', async (req, res) => {
       return res.render('register2', { error: 'Please provide all required fields.' });
     }
 
+    // Check if university email
+    const emailRegex = /^[a-zA-Z]{5}\d{3}@student\.otago\.ac\.nz$/;
+    if (!emailRegex.test(email)) {
+      return res.render('register2', { error: 'Must be valid university email' });
+    }
+
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email: email } });
     if (existingUser) {
