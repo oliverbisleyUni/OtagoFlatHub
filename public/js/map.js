@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         fillColor: '#f03',
                         fillOpacity: 0.8,
                         radius: 10
-                    }).addTo(map).bindPopup(`<b>${flat.name}</b><br><a href="/flat/${flat.id}">View Details</a>`);
+                    }).addTo(map).bindPopup(`<b>${flat.name}</b><br><a href="/flat/${flat.flat_id}">View Details</a>`);
                 }
             });
         })

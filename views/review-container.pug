@@ -36,6 +36,12 @@ style.
       a:hover {
         text-decoration: underline;
       }
+script.
+  function confirmDelete(url) {
+    if (confirm('Are you sure you want to delete this review?')) {
+      window.location.href = url;
+    }
+  }
 
 .container
   // Box for reviews by the current user
@@ -47,7 +53,8 @@ style.
           p Date: #{record.created_at}
           p Price: #{record.price}
           p Review: #{record.review}
-          a(href=`/delete-record/${record.record_id}`) Delete
+          a(href=`javascript:confirmDelete('/delete-record/${record.record_id}')`) Delete
+
 
   // Box for reviews by other users
   .other-reviews
