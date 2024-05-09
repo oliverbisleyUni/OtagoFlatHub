@@ -72,14 +72,20 @@ async function getCoordinates(address) {
 router.get('/', validateJwt, async (req, res) => {
   try {
     // Fetch all flats with their most recent flat records
-    const flats = await Flat.findAll({
-    });
-
+    const flatName = req.query['flat-name'];
+    flats = await Flat.findAll();
+    let filteredFlats = flats;
+    if (flatName) {
+      filteredFlats = flats.filter(flat => 
+        flat.name.toLowerCase().includes(flatName.toLowerCase())
+      );
+    } 
+    
 
 
     
 
-    res.render('index', { flats: flats });
+    res.render('index', { flats: filteredFlats });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal Server Error');

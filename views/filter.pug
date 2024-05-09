@@ -1,9 +1,6 @@
-//- filter.pug
-form(action="/filter", class='full-form', method="get")
-  label(for="price") Price:
-  input(type="number", id="price", name="price")
+form(id="filter-dialogue", action="/", class='full-form', method="get")
+  label(for="flat-name") Flat Name:
+  input(type="text", id="flat-name", name="flat-name", placeholder="Enter flat name")
 
-  label(for="location") Location:
-  input(type="text", id="location", name="location")
-
-  button(type="submit") Filter
+  button(type="button", id="close-filter") Close
+  button(type="submit") Search

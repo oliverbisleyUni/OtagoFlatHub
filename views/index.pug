@@ -7,20 +7,23 @@ html(lang="en")
     title Home Page
     link(rel="stylesheet", href="/stylesheets/Indexstyle.css")
     link(rel="stylesheet", href="/stylesheets/leaflet.css")
-    //- Make sure you put this AFTER Leaflet's CSS
     script(src="/js/leaflet.js")
+    script(src="/js/main.js")
    
 
 
   body
+    div#overlay
     include header.pug
+    
 
+    
 
-    form#upload-flat(action="/upload-flat", method="get")
-        button(type="submit") Upload Review
-
-   
+    include filter.pug
     main
+      form#upload-flat(action="/upload-flat", method="get")
+        button(type="submit") Upload Review
+        button(id="filter-button", type="button") Filter Options
       #flat-holder
         include flat-container.pug
       #map-container
